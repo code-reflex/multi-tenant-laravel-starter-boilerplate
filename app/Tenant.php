@@ -36,13 +36,14 @@ class Tenant
 
     }
 
-    public static function registerTenant($subdomain, $redirect, $https, $maintenance)
+    public static function registerTenant($subdomain, $redirect, $https, $maintenance, $logo)
     {
         $website = new Website;
         app(WebsiteRepository::class)->create($website);
 
         $hostname = new Hostname;
         $hostname->fqdn = $subdomain;
+        $hostname->logo = $logo;
         if ($redirect) $hostname->redirect_to = $redirect;
         if ($https) $hostname->force_https = $https;
         if ($maintenance) $hostname->under_maintenance_since = Carbon::parse($maintenance)->format('Y-m-d H:i:s');

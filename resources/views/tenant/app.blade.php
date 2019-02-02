@@ -20,7 +20,11 @@
     <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
         <div class="container">
             <a class="navbar-brand" href="{{ url('/') }}">
-                {{ config('app.name', 'Townhouse') }}
+                @if(\Hyn\Tenancy\Facades\TenancyFacade::hostname()->logo)
+                    {{ \Hyn\Tenancy\Facades\TenancyFacade::hostname()->logo }}
+                @else
+                    {{ config('app.name', 'Townhouse') }}
+                @endif
             </a>
 
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -38,7 +42,6 @@
                     <!-- Authentication Links -->
                     @guest
                         <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Login</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ route('register') }}">Register</a></li>
                     @else
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
@@ -64,15 +67,16 @@
     </nav>
     <main class="py-4">
 
-        <div class="container">
+        @yield('content')
+
+        <div class="container" style="padding-top: 10px;">
             @if (session('alert'))
                 <div class="{{ "alert alert-" . session('alert')['type']}}" role="alert">
                     {{ session('alert')['message'] }}
                 </div>
-            @endif       
+            @endif
         </div>
  
-        @yield('content')
     </main>
 </div>
 </body>

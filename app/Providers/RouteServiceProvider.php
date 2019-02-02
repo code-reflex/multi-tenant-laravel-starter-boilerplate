@@ -39,7 +39,7 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->mapWebRoutes();
 
-	$this->mapTenantRoutes();
+    	$this->mapTenantRoutes();
 
     }
 
@@ -86,6 +86,13 @@ class RouteServiceProvider extends ServiceProvider
             ->as('tenant.account.')
             ->prefix('account')
             ->group(base_path('routes/account.php'));
+
+        Route::middleware(['web', 'auth'])
+            ->namespace($this->namespace)
+            ->as('tenant.')
+            ->group(base_path('routes/tenant.php'));
+
+
     }
 
 }

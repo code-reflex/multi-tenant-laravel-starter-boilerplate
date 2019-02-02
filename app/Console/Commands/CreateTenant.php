@@ -68,6 +68,7 @@ class CreateTenant extends Command
         $this->info('Provide information to create new tenant.');
 
         $fqdn = $this->fqdn();
+        $logo = $this->logo($fqdn);
         $redirect = $this->redirect();
         $https = $this->forceHttps();
         $maintenance = $this->underMaintenance();
@@ -82,7 +83,7 @@ class CreateTenant extends Command
         $this->info('Creating tenant, please wait...');
         $this->output->progressStart(2);
         $subdomain = $fqdn.'.'.$this->baseURL;
-        $website = Tenant::registerTenant($subdomain, $redirect, $https, $maintenance);
+        $website = Tenant::registerTenant($subdomain, $redirect, $https, $maintenance, $logo);
 
         $this->connection->set($website);
         $this->output->progressAdvance();
@@ -120,6 +121,24 @@ class CreateTenant extends Command
         return $value;
 
     }
+
+    /**
+     * @return string
+     */
+    private function logo($fqdn)
+    {
+
+        $value = $this->ask('Please enter the Logo Name to be displayed (default:'.$fqdn.')');
+
+
+        if (empty($value)) {
+            $value = $fqdn;
+        }
+
+        return $value;
+
+    }
+
 
     /**
      * @return bool|string
