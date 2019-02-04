@@ -48,6 +48,7 @@ class ResetPasswordNotification extends Notification
 
         return (new MailMessage())
             ->subject("{$hostname->logo} : Password Reset Notification")
+            ->from("password.reset@multi.com")
             ->greeting("Hello {$notifiable->name},")
             ->line("You are receiving this email because we received a password reset request for your account.")
             ->action('Reset password', $resetUrl)            

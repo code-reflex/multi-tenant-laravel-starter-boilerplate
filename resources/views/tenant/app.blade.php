@@ -17,10 +17,10 @@
 <body>
 
 <div id="app">
-    <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
+    <nav class="navbar navbar-expand-md navbar-light navbar-app">
         <div class="container">
             <a class="navbar-brand" href="{{ url('/') }}">
-                @if(\Hyn\Tenancy\Facades\TenancyFacade::hostname()->logo)
+                @if(\Hyn\Tenancy\Facades\TenancyFacade::hostname())
                     {{ \Hyn\Tenancy\Facades\TenancyFacade::hostname()->logo }}
                 @else
                     {{ config('app.name', 'Townhouse') }}
@@ -79,5 +79,9 @@
  
     </main>
 </div>
+@yield('js')
+
 </body>
+
+
 </html>

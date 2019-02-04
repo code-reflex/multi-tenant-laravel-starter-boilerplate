@@ -89,7 +89,7 @@ class CreateTenant extends Command
         $this->output->progressAdvance();
 
         $adminPassword = str_random();
-        Tenant::registerAdmin($name, $adminPassword, $email)->notify(new TenantCreated($subdomain));;
+        Tenant::registerAdmin($name, $adminPassword, $email)->notify(new TenantCreated($subdomain));
         $this->output->progressFinish();
 
         $this->info("Tenant created!");

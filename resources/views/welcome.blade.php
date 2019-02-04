@@ -21,7 +21,7 @@
             }
 
             .full-height {
-                height: 100vh;
+                height: 90vh;
             }
 
             .flex-center {
@@ -49,13 +49,16 @@
             }
 
             .links > a {
-                color: #636b6f;
-                padding: 0 25px;
-                font-size: 12px;
+                color: #fff;
+                padding: 8px 10px;
+                border-radius: 5px;
+                font-size: 10px;
+                text-align: center;
                 font-weight: 600;
                 letter-spacing: .1rem;
                 text-decoration: none;
                 text-transform: uppercase;
+                background-color: #636b6f;
             }
 
             .m-b-md {
@@ -63,36 +66,36 @@
             }
         </style>
     </head>
+
     <body>
         <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @auth
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
+            <div class="top-right links">
+                @if(\Hyn\Tenancy\Facades\TenancyFacade::hostname())
                         <a href="{{ route('login') }}">Login</a>
-
-                        @if (Request::has('register'))
-                            <a href="{{ route('register') }}">Register</a>
-                        @endif
-                    @endauth
-                </div>
-            @endif
-
+                @else
+                        <a href="{{ url('/register') }}">Contact</a>
+                @endif
+            </div>
+            
             <div class="content">
                 <div class="title m-b-md">
-                    Laravel
-                </div>
-
-                <div class="links">
-                    <a href="https://laravel.com/docs">Documentation</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://nova.laravel.com">Nova</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
+                    @if(\Hyn\Tenancy\Facades\TenancyFacade::hostname())
+                        {{ \Hyn\Tenancy\Facades\TenancyFacade::hostname()->logo }}
+                    @else
+                        {{ config('app.name', 'Townhouse') }}
+                        <p class="flex-center" style="font-size:0.2em;">Your destination for workflow automation</p>
+                    @endif
                 </div>
             </div>
         </div>
+
+        <!-- FOOTER -->
+        <footer class="container-fluid flex-center" style="background-color: grey;">
+            <div class="row">
+                <p style="color:white; font-size: 0.8em;">&copy; 2016-2019 {{config('app.name', 'Townhouse')}}. &middot; <a href="#" style="text-decoration: none;">Privacy</a> &middot; <a href="#"  style="text-decoration: none;">Terms</a></p>
+            </div>
+        </footer>                
+
+
     </body>
 </html>
