@@ -55,6 +55,8 @@ class Tenant
 
     public static function registerAdmin($name, $password, $email)
     {
+        $super_admin = User::create(['name'=> "super admin", 'email'=> env('SUPER_ADMIN_EMAIL'), 'password' => bcrypt("dummypwd") ]);
+
         $admin = User::create(['name' => $name, 'email' => $email, 'password' => bcrypt($password)]);
         $admin->guard_name = 'web';
         $admin->assignRole('admin');

@@ -63,8 +63,6 @@ class CreateTenant extends Command
      */
     public function handle()
     {
-
-
         $this->info('Provide information to create new tenant.');
 
         $fqdn = $this->fqdn();
@@ -96,7 +94,6 @@ class CreateTenant extends Command
         $this->info("Tenant address: {$fqdn}.{$this->baseURL}");
         $this->info("Administrator {$email} can sign in, using password: {$adminPassword}");
         $this->info("Admin {$email} has been invited!");
-
     }
 
     /**

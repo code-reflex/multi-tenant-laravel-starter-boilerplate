@@ -9,6 +9,7 @@ use Auth;
 
 use App\Role;
 use App\Permission;
+use \Illuminate\Support\Str;
 
 //Enables us to output flash messaging
 use Session;
@@ -16,7 +17,7 @@ use Session;
 class UserController extends Controller {
 
     public function __construct() {
-//        $this->middleware(['auth', 'isAdmin']); //isAdmin middleware lets only users with a //specific permission permission to access these resources
+        $this->middleware(['auth', 'isAdmin']); //isAdmin middleware lets only users with a specific permission permission to access these resources
     }
 
     /**
@@ -49,17 +50,18 @@ class UserController extends Controller {
     */
     public function store(Request $request) {
 
-    //Validate name, email and password fields
+        //Validate name, email and password fields
         $this->validate($request, [
             'name'=>'required|max:120',
             'email'=>'required|email|unique:tenant.users',
             'password'=>'required|min:6|confirmed'
         ]);
 
-        $user = User::create($request->only('name', 'email', 'password')); //Retrieving only the email and password data
+        $user = User::create(['name'=> $request->name, 'email' => $request->email, 'password' => bcrypt($request->password)]);
 
         $roles = $request['roles']; //Retrieving the roles field
-    //Checking if a role was selected
+        
+        //Checking if a role was selected
         if (isset($roles)) {
 
             foreach ($roles as $role) {
@@ -67,11 +69,9 @@ class UserController extends Controller {
             $user->assignRole($role_r); //Assigning role to user
             }
         }        
-    //Redirect to the users.index view and display message
-        // return redirect()->route('users.index')
-        //     ->with('flash_message',
-        //      'User successfully added.');
+
         session()->flash('alert', ['type' => 'success', 'message' => 'User added']);        
+
         return redirect()->route('tenant.users.index');
     }
 
@@ -109,7 +109,7 @@ class UserController extends Controller {
     public function update(Request $request, $id) {
         $user = User::findOrFail($id); //Get role specified by id
 
-    //Validate name, email and password fields    
+        //Validate name, email and password fields    
         $this->validate($request, [
             'name'=>'required|max:120',
             'email'=>'required|email|unique:tenant.users,email,'.$id,
@@ -125,9 +125,7 @@ class UserController extends Controller {
         else {
             $user->roles()->detach(); //If no role is selected remove exisiting role associated to a user
         }
-        // return redirect()->route('users.index')
-        //     ->with('flash_message',
-        //      'User successfully edited.');
+
         session()->flash('alert', ['type' => 'success', 'message' => 'User updated']);        
         return redirect()->router('tenant.users.index');
     }
@@ -139,15 +137,19 @@ class UserController extends Controller {
     * @return \Illuminate\Http\Response
     */
     public function destroy($id) {
-    //Find a user with a given id and delete
+       //Find a user with a given id and delete
         $user = User::findOrFail($id); 
-        $user->delete();
+  
+//        dd($user->hasRole('admin'));
+        // do not delete super-admin user or is an admin
+        if (($user->email == env('SUPER_ADMIN_EMAIL')) || $user->hasRole('admin')) {
+            session()->flash('alert', ['type' => 'danger', 'message' => 'Not allowed to delete this user']);        
+            return redirect()->route('tenant.users.index');
+        } else {
+            $user->delete();
 
-        // return redirect()->route('users.index')
-        //     ->with('flash_message',
-        //      'User successfully deleted.');
-        session()->flash('alert', ['type' => 'success', 'message' => 'User deleted']);        
-        return redirect()->route('tenant.users.index');
-
+            session()->flash('alert', ['type' => 'success', 'message' => 'User deleted']);        
+            return redirect()->route('tenant.users.index');
+        }
     }
 }
