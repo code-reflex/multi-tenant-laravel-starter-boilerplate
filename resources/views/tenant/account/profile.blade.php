@@ -1,4 +1,4 @@
-@extends('tenant.app')
+@extends(env('LAYOUT_TEMPLATE'))
 
 @section('content')
     <div class="container">

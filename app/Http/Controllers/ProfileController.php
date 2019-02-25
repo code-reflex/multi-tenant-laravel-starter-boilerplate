@@ -15,6 +15,5 @@ class ProfileController extends Controller
         session()->flash('alert', ['type' => 'success', 'message' => 'Your profile has been updated.']);
 
         return redirect(route('tenant.account.profile.edit'));
-//        return redirect('/home');
     }
 }

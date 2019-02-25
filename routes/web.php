@@ -15,17 +15,19 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/register', 'TenantController@registrationCreate');
-Route::post('/register', 'TenantController@registrationStore');
-Route::get('/registerRefreshCaptcha', 'TenantController@registerRefreshCaptcha');
+Route::get('/signup', 'TenantController@signupCreate');
+Route::post('/signup', 'TenantController@signupStore');
+Route::get('/signupRefreshCaptcha', 'TenantController@signupRefreshCaptcha');
 
 Route::group(['middleware' => 'tenancy.enforce'], function () {
     //Auth::routes();
 
-	// Registration Routes...
+	// Registration Routes... 
 	//Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
 	//Route::post('register', 'Auth\RegisterController@register');
 
+	// only logged in admin user can add new users
+	
 	// Authentication Routes...
 	Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 	Route::post('login', 'Auth\LoginController@login');
@@ -40,7 +42,10 @@ Route::group(['middleware' => 'tenancy.enforce'], function () {
 	// Email Verification Routes...
 	//Route::get('email/verify', 'Auth\VerificationController@show')->name('verification.notice');
 	//Route::get('email/verify/{id}', 'Auth\VerificationController@verify')->name('verification.verify');
-	//Route::get('email/resend', 'Auth\VerificationController@resend')->name('verification.resend');    
+	//Route::get('email/resend', 'Auth\VerificationController@resend')->name('verification.resend'); 
+	
+	Route::get('profile', 'ProfileController@edit')->name('profile');
+	Route::post('profile', 'ProfileController@update');
 });
 
 Route::get('/home', 'HomeController@index')->name('home');

@@ -71,9 +71,9 @@
         <div class="flex-center position-ref full-height">
             <div class="top-right links">
                 @if(\Hyn\Tenancy\Facades\TenancyFacade::hostname())
-                        <a href="{{ route('login') }}">Login</a>
+                        <a href="{{ route('login') }}">LOGIN</a>
                 @else
-                        <a href="{{ url('/register') }}">Contact</a>
+                        <a href="{{ url('/signup') }}">SIGN UP</a>
                 @endif
             </div>
             

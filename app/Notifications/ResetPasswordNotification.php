@@ -45,10 +45,11 @@ class ResetPasswordNotification extends Notification
         $hostname = \Hyn\Tenancy\Facades\TenancyFacade::hostname();
         $resetUrl = "http://{$hostname->fqdn}/password/reset/{$this->token}";
         $app = config('app.name');
+        $from = 'no-reply@'.$hostname->fqdn;
 
         return (new MailMessage())
             ->subject("{$hostname->logo} : Password Reset Notification")
-            ->from("password.reset@multi.com")
+            ->from($from)
             ->greeting("Hello {$notifiable->name},")
             ->line("You are receiving this email because we received a password reset request for your account.")
             ->action('Reset password', $resetUrl)            

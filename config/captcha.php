@@ -2,7 +2,8 @@
 
 return [
 
-    'characters' => '12346789abcdefghijmnpqrtuxyz',
+    // customize the character set to be used for captcha display   
+    'characters' => '12346789abdefghijmnpqrt',
 
     'default'   => [
         'length'    => 6,
@@ -15,11 +16,11 @@ return [
     'flat'   => [
         'length'    => 6,
         'width'     => 160,
-        'height'    => 46,
+        'height'    => 38,
         'quality'   => 90,
         'lines'     => 6,
         'bgImage'   => true,
-        'bgColor'   => '#fff', //'#ecf2f4',
+        'bgColor'   => '#fff',
         'fontColors'=> ['#2c3e50', '#c0392b', '#16a085', '#c0392b', '#8e44ad', '#303f9f', '#f57c00', '#795548'],
         'contrast'  => -5,
     ],
@@ -31,7 +32,7 @@ return [
     ],
 
     'inverse'   => [
-        'length'    => 5,
+        'length'    => 6,
         'width'     => 120,
         'height'    => 36,
         'quality'   => 90,

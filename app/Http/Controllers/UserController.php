@@ -26,7 +26,6 @@ class UserController extends Controller {
     * @return \Illuminate\Http\Response
     */
     public function index() {
-    //Get all users and pass it to the view
         $users = User::all(); 
         return view('tenant.users.index')->with('users', $users);
     }
@@ -37,7 +36,6 @@ class UserController extends Controller {
     * @return \Illuminate\Http\Response
     */
     public function create() {
-    //Get all roles and pass it to the view
         $roles = Role::all();
         return view('tenant.users.create', ['roles'=>$roles]);
     }
@@ -49,7 +47,7 @@ class UserController extends Controller {
     * @return \Illuminate\Http\Response
     */
     public function store(Request $request) {
-
+        
         //Validate name, email and password fields
         $this->validate($request, [
             'name'=>'required|max:120',
@@ -140,7 +138,6 @@ class UserController extends Controller {
        //Find a user with a given id and delete
         $user = User::findOrFail($id); 
   
-//        dd($user->hasRole('admin'));
         // do not delete super-admin user or is an admin
         if (($user->email == env('SUPER_ADMIN_EMAIL')) || $user->hasRole('admin')) {
             session()->flash('alert', ['type' => 'danger', 'message' => 'Not allowed to delete this user']);        
