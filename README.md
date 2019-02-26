@@ -1,78 +1,94 @@
 # Multi-tenant Starter boilerplate
  
-This repository enables users to jumpstart their SAAS application development with separate tenant databases. It is based on hyn/multi-tenant package for multi tenancy. It is integrated with spatie/laravel-permission package for managing roles & permissions in the application. It puts together the most common building blocks necessary for developing a multi tenant SAAS application using Laravel.
+This repository puts together the most common building blocks necessary for developing a multi tenant SAAS application using Laravel, thus enabling users to jumpstart their SAAS application development with separate tenant databases.
+
+It provides
+
+- Multi tenancy with separate databases
+- Roles & Permissions for users with isAdmin middleware
+- A "Super Admin" role with  access across tenants 
+- A simple Admin Dashboard starter blade template (layout) if anyone wants an dashboard page as home
+- Signup page with captcha (to prevent bot signups) for new tenants
+- Session Flash feature in the layout templates for reporting back the action response
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+This starter boilerplate is built on Laravel 5.7. Hence, working knowledge of Laravel is required. 
+
 
 ### Prerequisites
 
-What things you need to install the software and how to install them
+Standard requirements for any laravel 5.7 application development is applicable here. Please verify the PHP version, necessary PHP libraries/extensions & MySQL Database availability on your system before proceeding.
 
-```
-Give examples
-```
+Ensure that your apache/nginx setup is configured correctly to support subdomains so that tenants can have their own subdomains. 
+
+
 
 ### Installing
 
-A step by step series of examples that tell you how to get a development env running
+- Download the repository by cloning it OR in zip format & extract to your project folder
+- Change over to project folder
+- Run 'composer install' to install the packages used in this project.
+```
+    composer install     
+```
+- Copy .env.example to .env & update the necessary parameters.
+- Point your web root to the public folder so that the application can be accessed from your system's web server.
 
-Say what the step will be
+Use the php artisan commands in the console to create a new tenant. Answer the prompts to create a tenant. A confirmation email will be sent to the tenant with password reset link for first time login.
 
 ```
-Give the example
+    php artisan tenant:create 
 ```
 
-And repeat
+## Features
+### Multi Tenancy
+> The multi tenancy feature allows you to run multiple websites using the same laravel installation while keeping tenant specific data separate. Each tenant will be able to access their data through their specific subdomain portal.
 
-```
-until finished
-```
+Refer to **Built With** section for details on Hyn 5.3
 
-End with an example of getting some data out of the system or using it for a little demo
 
-## Running the tests
 
-Explain how to run the automated tests for this system
+### Simple Bootstrap based admin dashboard
+> An admin panel is a prerequiste for most applications. Hence, a basic admin panel has been included in the package. It can be used as a layout template, with necessary customization for the left sidebar to include menu items, for your views. 
+>
+>The dashboard supports responsive design.
+>
+> .env provides a parameter to specify the layout template to be used. Two templates, namely, default.blade.php & dashboard.blade.php are provided for your reference.
 
-### Break down into end to end tests
+Refer to **Built With** section for details on Bootstrap Sidebar for any modifications or alternate options.
 
-Explain what these tests test and why
 
-```
-Give an example
-```
+### Flash message support
+> As any typical laravel project, even this layout has a flash session support included.
+>
+>Usage: 
+>
+     session()->flash('alert', [
+         'type' => 'success', 
+         'message' => 'Item deleted'
+     ]);        
+> Use typical bootstrap styles for type, i.e., primary, success, info, danger etc for appropriate color coding of the flash alert. 
 
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-## Deployment
-
-Add additional notes about how to deploy this on a live system
 
 ## Built With
+Some of the key packages used in this boilerplate are:
 
 * [Laravel](https://laravel.com/docs/5.7) - The web framework used
-* [Multi-Tenant Package](https://github.com/hyn/multi-tenant) - Multi tenancy management
+* [Hyn 5.3 Multi-Tenant Package](https://github.com/hyn/multi-tenant) - Multi tenancy management
 * [Roles & Permission Package](https://github.com/spatie/laravel-permission) - Associate users with roles and permission
+* [Bootstrap Sidebar](https://bootstrapious.com/p/bootstrap-sidebar) Admin panel / dashboard implementation reference.
 
 ## Authors
 
 * **Code Reflex** - *Initial work* - [Code-Reflex](https://github.com/code-reflex)
 
-See also the list of [contributors](https://github.com/code-reflex/this-project/contributors) who participated in this project.
-
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is free for anyone who wishes to copy and replicate / customize for their needs as long as they adhere to the license terms & conditions of the packages included.
 
 ## Acknowledgments
 
 * [Ashok Gelal](https://blog.usejournal.com/@ashokgelal) for his article on building [Town House](https://blog.usejournal.com/writing-a-full-featured-multi-tenant-laravel-app-from-scratch-a0e1a7350d9d) app using hyn/multi-tenant  
 * [Caleb Oki](https://scotch.io/@caleboki) for his article on [User Authorisation](https://scotch.io/tutorials/user-authorization-in-laravel-54-with-spatie-laravel-permission) in Laravel 5.4 with Spatie Laravel-Permission
+* [Ondrej](https://bootstrapious.com/about) for his article on [Collapsible sidebar](https://bootstrapious.com/p/bootstrap-sidebar) using Bootstrap 4
